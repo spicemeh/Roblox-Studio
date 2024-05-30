@@ -14,11 +14,11 @@ function EasyTween.new(instance: Instance, propertyValue: string)
 			(not propertyValue and (not instance and " & " or "") .. "property" or "")
 		error(string.format("EasyTween: %s unassigned", unassignedValue))
 	end
-	
+
 	if not instance[propertyValue] then
 		return
 	end
-	
+
 	if objects[instance] then
 		return objects[instance]
 	end
@@ -52,7 +52,7 @@ function EasyTweenFunctions:Tween(finalGoal : any, duration : number)
 			self.TweenData.IsTweening = false
 		end
 	end
-	
+
 	local tween = tweenService:Create(self.Base, TweenInfo.new(duration or 1), {[self.Property] = finalGoal})
 	self.TweenData.IsTweening = true
 	self.TweenData.TweenGoal = finalGoal
@@ -64,7 +64,9 @@ function EasyTweenFunctions:Tween(finalGoal : any, duration : number)
 			self.TweenData.TweenObject = nil
 			self.TweenData.TweenGoal = nil
 			self.TweenData.IsTweening = false
-			self.TweenCompleteCallback()
+			if self.TweenCompleteCallback then
+				self.TweenCompleteCallback()
+			end
 		end
 	end)	
 end
@@ -93,7 +95,7 @@ end
 function EasyTweenFunctions:OnTweenComplete(callback)
 	self.TweenCompleteCallback = callback or
 		function()
-			
+
 		end
 end
 
